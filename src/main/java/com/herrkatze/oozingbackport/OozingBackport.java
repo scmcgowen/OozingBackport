@@ -10,11 +10,19 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.item.alchemy.PotionBrewing;
+import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.Potions;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.brewing.BrewingRecipe;
+import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -49,15 +57,16 @@ public class OozingBackport
         PotionList.POTION_LIST.register(modEventBus);
         // Register the Deferred Register to the mod event bus so items get registered
         // Register ourselves for server and other game events we are interested in
+
         MinecraftForge.EVENT_BUS.register(this);
         int id = 0;
     }
-
     private void commonSetup(final FMLCommonSetupEvent event)
     {
-
+        BrewingRecipeRegistry.addRecipe(Ingredient.of(PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.AWKWARD)),Ingredient.of(Items.SLIME_BLOCK),PotionUtils.setPotion(new ItemStack(Items.POTION),PotionList.OOZING_POTION.get()));
+        BrewingRecipeRegistry.addRecipe(Ingredient.of(PotionUtils.setPotion(new ItemStack(Items.SPLASH_POTION), Potions.AWKWARD)),Ingredient.of(Items.SLIME_BLOCK),PotionUtils.setPotion(new ItemStack(Items.SPLASH_POTION),PotionList.OOZING_POTION.get()));
+        BrewingRecipeRegistry.addRecipe(Ingredient.of(PotionUtils.setPotion(new ItemStack(Items.LINGERING_POTION), Potions.AWKWARD)),Ingredient.of(Items.SLIME_BLOCK),PotionUtils.setPotion(new ItemStack(Items.LINGERING_POTION),PotionList.OOZING_POTION.get()));
     }
-
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event)
